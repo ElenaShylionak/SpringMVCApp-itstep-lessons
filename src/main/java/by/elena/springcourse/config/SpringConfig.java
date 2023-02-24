@@ -12,44 +12,39 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-//Java конфирурация полностью эквивалентна файлу wapplicationContextMVC.xml
-    @Configuration
-    @ComponentScan("by.elena.springcourse")
-    @EnableWebMvc
-    //EnableWebMvc равноценна тегу MVCdriven. У нас MVC приложение, которое поодерживает web -функции, поэтому эта аннотация нужна
-    public class SpringConfig implements WebMvcConfigurer { //WebMvcConfigurer реализуется тогда, когда мы хотим под себя подстроить SpringMVC
-        //в данном случае мы используем этот интерфейс, чтобы настроить Thymeleaf
+@Configuration
+@ComponentScan("by.elena.springcourse")
+@EnableWebMvc
+public class SpringConfig implements WebMvcConfigurer {
 
-        private final ApplicationContext applicationContext; //applicationContext будет внедрен Spring
+    private final ApplicationContext applicationContext;
 
-        @Autowired
-        public SpringConfig(ApplicationContext applicationContext) {
-            this.applicationContext = applicationContext;
-        }
-
-        //отвечает за шаблонизацию Thymeleaf
-        @Bean
-        public SpringResourceTemplateResolver templateResolver() {
-            SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-            templateResolver.setApplicationContext(applicationContext); //applicationContext нужен для настройки Thymeleaf
-            templateResolver.setPrefix("/WEB-INF/views/"); //путь где будут наши представления (view)
-            templateResolver.setSuffix(".html"); //расширение представлений
-            return templateResolver;
-        }
-
-        @Bean
-        public SpringTemplateEngine templateEngine() {
-            SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-            templateEngine.setTemplateResolver(templateResolver());
-            templateEngine.setEnableSpringELCompiler(true);
-            return templateEngine;
-        }
-        //Вместо стандартного шаблонизатора использовать Thymeleaf
-        @Override
-        public void configureViewResolvers(ViewResolverRegistry registry) {
-            ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-            resolver.setTemplateEngine(templateEngine());
-            registry.viewResolver(resolver);
-        }
+    @Autowired
+    public SpringConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setApplicationContext(applicationContext);
+        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setSuffix(".html");
+        return templateResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+        resolver.setTemplateEngine(templateEngine());
+        registry.viewResolver(resolver);
+    }
+}

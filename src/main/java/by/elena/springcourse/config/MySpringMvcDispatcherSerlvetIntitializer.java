@@ -5,13 +5,11 @@ package by.elena.springcourse.config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class MySpringMvcDispatcherSerlvetIntitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-
     @Override
-    protected Class<?>[] getRootConfigClasses() { //этот метод не иупользуется, поэтому ничего не меняем
+    protected Class<?>[] getRootConfigClasses() {
         return null;
     }
 
-    //указываем, где находиться конфирурациионный класс {SpringConfig.class}
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringConfig.class};
@@ -19,7 +17,6 @@ public class MySpringMvcDispatcherSerlvetIntitializer extends AbstractAnnotation
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"}; //все запросы от пользователя будут приходить на DispatcherServlet
+        return new String[]{"/"};
     }
-
 }

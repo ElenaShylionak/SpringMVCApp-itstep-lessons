@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>on development stage!</h2>
+<h2>Hello World!</h2>
 </body>
 </html>
